@@ -1,5 +1,6 @@
 import React from 'react';
-import Weather from './assets/Weather'
+import Weather from './components/Weather';
+import './index.css'
 
 const App = () => {
   return (
