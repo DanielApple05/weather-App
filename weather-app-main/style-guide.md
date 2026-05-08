@@ -18,7 +18,7 @@ The designs were created to the following widths:
 - **Neutral 700**: hsl(243, 23%, 24%)
 - **Neutral 600**: hsl(243, 23%, 30%)
 - **Neutral 300**: hsl(240, 6%, 70%)
-- **Neutral 200**: hsl(250, 6%, 84%)
+- **Neutral 200**: hsl(250, 6%, 84%),  #D4D3D9
 - **Neutral 0**: hsl(0, 0%, 100%)
 
 ### Orange
