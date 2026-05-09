@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 
 const Weather = () => {
-  const [city, setCity] = useState("Lagos")
-  const [weatherData, setWeatherData] = useState(null)
+  const [city, setCity] = useState("Lagos");
+  const [weatherData, setWeatherData] = useState(null);
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
   const [unit, setUnit] = useState(false);
-  const [input, setInput] = useState("")
+  const [input, setInput] = useState("");
+  const [selectedDay, setSelectedDay] = useState(0)
 
   useEffect(() => {
     if (!city) return
@@ -32,7 +33,14 @@ const Weather = () => {
 
   const current = weatherData?.list[0]
   const daily = weatherData?.list.filter(entry => entry.dt_txt.includes("12:00:00"))
-  const hourly = weatherData?.list.slice(0, 8)
+  const getDayName = (dt_txt) => {
+    const date = new Date(dt_txt)
+    return date.toLocaleDateString("en-US", { weekday: "long" })
+  }
+  const hourly = weatherData?.list.filter(entry =>
+    entry.dt_txt.startsWith(daily[selectedDay]?.dt_txt.split(" ")[0])
+  )
+
   return (
     <div>
       <div className=' bg-[#050620] text-gray-300 xl:px-20 px-5 xl:py-10 py-5 min-h-screen '>
@@ -73,9 +81,9 @@ const Weather = () => {
         <div className='xl:flex flex-col-2 mt-10 justify-between gap-5  '>
           <div className=' gap-5 flex flex-col flex-1 '>
             <div className='flex justify-between items-center p-8 rounded-2xl min-h-60 bg-cover bg-no-repeat bg-center bg-[url(/images/bg-today-large.svg)]'>
-              <div className=''>
-                <p>{weatherData?.city.name}</p>
-                <p>current date</p>
+              <div>
+                <p>{weatherData?.city.name}, <span>{weatherData?.city.country}</span></p>
+                <p>{new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</p>
               </div>
               <div className='flex items-center'>
                 <img src={`https://openweathermap.org/img/wn/${current?.weather[0].icon}@2x.png`} alt="" />
@@ -100,7 +108,7 @@ const Weather = () => {
                 <span>{current?.rain?.["3h"] ?? 0} mm</span>
               </div>
             </div>
-            <div className='space-y-5'>
+            <div className='space-y-5 mb-5'>
               <p>Daily forecast</p>
               <div className='xl:flex grid grid-cols-2 flex-1 gap-3'>
                 {daily?.map((day, index) => (
@@ -113,13 +121,13 @@ const Weather = () => {
               </div>
             </div>
           </div>
-          <div className='xl:w-3/12 w-full flex flex-col bg-[#2F2D52] rounded-lg'>
+          <div className='xl:w-3/12 w-full flex flex-col bg-[#2F2D52] rounded-lg relative'>
             <div className='flex justify-between p-5 items-center '>
               <p className='text-start'>Hourly forecast</p>
-              <div className='flex p-2 items-center bg-[#3B3966] rounded-lg gap-2'>
+              <button className='flex p-2 items-center bg-[#3B3966] rounded-lg gap-2' onClick={() => setDay(!day)}>
                 <p>Days</p>
                 <img src="/images/icon-dropdown.svg" alt="" />
-              </div>
+              </button>
             </div>
             {hourly?.map((hour, index) => (
               <div key={index} className='flex justify-between items-center p-3 border-b border-[#3B3966]'>
@@ -128,6 +136,17 @@ const Weather = () => {
                 <p>{Math.round(hour.main.temp)}°C</p>
               </div>
             ))}
+            <div className='flex gap-2 p-3'>
+              {daily?.map((day, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedDay(index)}
+                  className={`p-2 rounded-lg text-sm ${selectedDay === index ? 'bg-[#030578]' : 'bg-[#3B3966]'}`}
+                >
+                  {getDayName(day.dt_txt).slice(0, 3)}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
