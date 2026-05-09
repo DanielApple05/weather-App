@@ -2,16 +2,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 
 const Weather = () => {
-  
+  const [city, setCity] = useState("Lagos")
+const [weatherData, setWeatherData] = useState(null)
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;  
   const [ unit, setUnit ] = useState(false);
+  const [input, setInput] = useState("")
 
 useEffect(() => {
+  if  (!city) return
   const fetchWeather = async () => {
     try {
       const res = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?q=Lagos&appid=${API_KEY}&units=metric`
+        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
       )
+     setWeatherData(res.data)
       console.log(res.data)
     } catch (error) {
       console.error(error)
@@ -19,7 +23,14 @@ useEffect(() => {
   }
 
   fetchWeather()
-}, [])
+}, [city])
+
+const search = (e) =>{
+  e.preventDefault();
+   if (input.trim()) setCity(input)
+
+  console.log(input)
+}
 
   return (
     <div>
@@ -44,12 +55,16 @@ useEffect(() => {
           <h1 className='xl:text-[35px] text-[20px]'>
             How's the sky looking today?
           </h1>
-          <form className='flex gap-3 xl:w-7/12 w-full'>
+          <form  onSubmit={search}  className=' flex gap-3 xl:w-7/12 w-full'>
             <div className='flex bg-[#2F2D52] items-center p-3 rounded-lg flex-1  '>
               <img src="/images/icon-search.svg" alt="" className='w-5 ' />
-              <input type="text" className='outline-none pl-2' placeholder='Search for a place...' />
+              <input 
+              type="text" 
+              value={input}
+              onChange={ (e) => setInput(e.target.value)}
+              className='outline-none pl-2' placeholder='Search for a place...' />
             </div>
-              <button className='p-3 bg-[#030578] rounded-lg'>
+              <button type='submit' className='p-3 bg-[#030578] rounded-lg'>
                 Search
               </button>
           </form>
@@ -58,7 +73,9 @@ useEffect(() => {
           <div className=' gap-5 flex flex-col flex-1 '>
             <div className='flex justify-between items-center p-8 rounded-2xl min-h-60 bg-cover bg-no-repeat bg-center bg-[url(/images/bg-today-large.svg)]'>
               <div className=''>
-                <p>Location</p>
+               {weatherData && (
+  <p>{weatherData.city.name}</p>
+)}
                 <p>current date</p>
               </div>
               <div className='flex items-center'>
