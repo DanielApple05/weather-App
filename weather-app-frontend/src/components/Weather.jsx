@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'
 
 const Weather = () => {
   
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;  
   const [ unit, setUnit ] = useState(false);
+
+useEffect(() => {
+  const fetchWeather = async () => {
+    try {
+      const res = await axios.get(
+        `https://api.openweathermap.org/data/2.5/forecast?q=Lagos&appid=${API_KEY}&units=metric`
+      )
+      console.log(res.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  fetchWeather()
+}, [])
 
   return (
     <div>
@@ -24,7 +40,7 @@ const Weather = () => {
              hello
             </div>
           }
-        <div className='flex flex-col items-center justify-center gap-10 xl:mt-0 mt-10 pl-20'>
+        <div className='flex flex-col items-center justify-center gap-10 xl:mt-0 mt-10 xl:pl-20 pl-0'>
           <h1 className='xl:text-[35px] text-[20px]'>
             How's the sky looking today?
           </h1>
