@@ -7,6 +7,7 @@ const Weather = () => {
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
   const [unit, setUnit] = useState(false);
   const [input, setInput] = useState("");
+  const [day, setDay] = useState(false);
   const [selectedDay, setSelectedDay] = useState(0)
 
   useEffect(() => {
@@ -137,7 +138,7 @@ const Weather = () => {
               </div>
             ))}
             <div className='flex gap-2 p-3'>
-              {daily?.map((day, index) => (
+              { day && daily?.map((day, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedDay(index)}
