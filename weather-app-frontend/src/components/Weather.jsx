@@ -1,37 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Weather = () => {
+  
+  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;  
+  const [ unit, setUnit ] = useState(false);
+
   return (
     <div>
-      <div className=' bg-[#050620] text-gray-300 xl:p-10 p-5 min-h-screen '>
-        <div className='flex justify-between '>
+      <div className=' bg-[#050620] text-gray-300 xl:px-20 px-5 xl:py-10 py-5 min-h-screen '>
+        <div className='flex justify-between relative'>
           <img src='/images/logo.svg' alt="" className='xl:w-40 w-30' />
-          <div className='flex items-center justify-center bg-[#2F2D52] p-2 rounded-lg gap-2'>
+          <button className='flex items-center justify-center bg-[#2F2D52] p-2 rounded-lg gap-2 cursor-pointer' onClick={ () => setUnit(!unit)} >
             <img src="/images/icon-units.svg" alt="" />
             <p>
               Units
             </p>
             <img src="/images/icon-dropdown.svg" alt="" />
-          </div>
-        </div>
-        <div className='flex flex-col items-center justify-center gap-10 xl:mt-0 mt-10'>
+          </button>
+        </div >
+            {
+            unit && 
+            <div className='absolute right-0'>
+             hello
+            </div>
+          }
+        <div className='flex flex-col items-center justify-center gap-10 xl:mt-0 mt-10 pl-20'>
           <h1 className='xl:text-[35px] text-[20px]'>
             How's the sky looking today?
           </h1>
-          <div className='flex gap-5 xl:w-6/12 w-full '>
+          <form className='flex gap-3 xl:w-7/12 w-full'>
             <div className='flex bg-[#2F2D52] items-center p-3 rounded-lg flex-1  '>
               <img src="/images/icon-search.svg" alt="" className='w-5 ' />
               <input type="text" className='outline-none pl-2' placeholder='Search for a place...' />
             </div>
-            <div>
-              <p className='p-3 bg-[#030578] rounded-lg'>
+              <button className='p-3 bg-[#030578] rounded-lg'>
                 Search
-              </p>
-            </div>
-          </div>
+              </button>
+          </form>
         </div>
-        <div className='xl:flex flex-col mt-10 justify-between gap-5  '>
-          <div className=' gap-5 flex flex-col xl:w-7/12 w-full flex-1 '>
+        <div className='xl:flex flex-col-2 mt-10 justify-between gap-5  '>
+          <div className=' gap-5 flex flex-col flex-1 '>
             <div className='flex justify-between items-center p-8 rounded-2xl min-h-60 bg-cover bg-no-repeat bg-center bg-[url(/images/bg-today-large.svg)]'>
               <div className=''>
                 <p>Location</p>
@@ -67,7 +75,7 @@ const Weather = () => {
               </div>
             </div>
           </div>
-          <div className='xl:w-4/12 w-full flex flex-col bg-[#2F2D52] rounded-lg'>
+          <div className='xl:w-3/12 w-full flex flex-col bg-[#2F2D52] rounded-lg'>
             <div className='flex justify-between p-5 items-center '>
               <p className='text-start'>Hourly forecast</p>
               <div className='flex p-2 items-center bg-[#3B3966] rounded-lg gap-2'>
