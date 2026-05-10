@@ -9,7 +9,7 @@ const Weather = () => {
   const [input, setInput] = useState("");
   const [day, setDay] = useState(false);
   const [selectedDay, setSelectedDay] = useState(0)
-  const [ loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!city) return
@@ -55,13 +55,47 @@ const Weather = () => {
             </p>
             <img src="/images/icon-dropdown.svg" alt="" />
           </button>
+          {
+            unit &&
+            <div className='flex flex-col right-0 top-15 xl:w-2/12 w-6/12 absolute gap-2 p-3 bg-[#2F2D52] rounded-lg shadow-2xl ring ring-[#3B3966] '>
+              <button>Switch to Imperial</button>
+              <div className='border-b p-1 space-y-2 border-gray-400'>
+                <strong>Temprature</strong>
+                <div className='flex justify-between mt-2 items-center'>
+                  <span>celsius(c)</span>
+                  <img src="/images/icon-checkmark.svg" alt="" />
+                </div>
+                <div className='flex justify-between mb-2'>
+                  <span>Fahrenheit(f)</span>
+                  <img src="/images/icon-checkmark.svg" alt="" />
+                </div>
+              </div>
+              <div className='border-b p-1 space-y-2 border-gray-400'>
+                <strong>Wind Speed</strong>
+                <div  className='flex justify-between mt-2 items-center'>
+                  <span>km/h</span>
+                  <img src="/images/icon-checkmark.svg" alt="" />
+                </div>
+                <div className='flex justify-between mb-2'>
+                  <span>mph</span>
+                  <img src="/images/icon-checkmark.svg" alt="" />
+                </div>
+              </div>
+              <div className='p-1 space-y-2'>
+                <strong>Precipitation</strong>
+                <div  className='flex justify-between mt-2 items-center'>
+                  <span>Millimeters(mm)</span>
+                  <img src="/images/icon-checkmark.svg" alt="" />
+                </div>
+                <div className='flex justify-between'>
+                  <span>Inches(in)</ span>
+                  <img src="/images/icon-checkmark.svg" alt="" />
+                </div>
+              </div>
+            </div>
+          }
         </div >
-        {
-          unit &&
-          <div className='absolute right-0'>
-            hello
-          </div>
-        }
+
         <div className='flex flex-col items-center justify-center gap-10 xl:mt-0 mt-10 xl:pl-20 pl-0'>
           <h1 className='xl:text-[35px] text-[20px]'>
             How's the sky looking today?
@@ -132,7 +166,7 @@ const Weather = () => {
               </button>
             </div>
             {hourly?.map((hour, index) => (
-              <div key={index} className='flex justify-between items-center p-3 rounded-2xl bg-[#3B3966]'>
+              <div key={index} className='flex justify-between items-center p-2 rounded-2xl bg-[#3B3966]'>
                 <p>{hour.dt_txt.split(" ")[1].slice(0, 5)}</p>
                 <img src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`} alt="" className='w-8' />
                 <p>{Math.round(hour.main.temp)}°C</p>
