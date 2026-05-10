@@ -9,6 +9,7 @@ const Weather = () => {
   const [input, setInput] = useState("");
   const [day, setDay] = useState(false);
   const [selectedDay, setSelectedDay] = useState(0)
+  const [ loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!city) return
@@ -137,17 +138,19 @@ const Weather = () => {
                 <p>{Math.round(hour.main.temp)}°C</p>
               </div>
             ))}
-            <div className='flex flex-col right-0 top-15 w-7/12 absolute gap-2 p-3 bg-[#2F2D52] rounded-lg shadow-2xl ring ring-[#3B3966] m-3 '>
-              { day && daily?.map((day, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedDay(index)}
-                  className={`p-2 rounded-lg text-sm ${selectedDay === index ? 'bg-[#030578]' : 'bg-[#3B3966]'}`}
-                >
-                  {getDayName(day.dt_txt)}
-                </button>
-              ))}
-            </div>
+            {day && (
+              <div className='flex flex-col right-0 top-15 w-7/12 absolute gap-2 p-3 bg-[#2F2D52] rounded-lg shadow-2xl ring ring-[#3B3966] m-3'>
+                {daily?.map((d, index) => (
+                  <button
+                    key={index}
+                    onClick={() => { setSelectedDay(index); setDay(false) }}
+                    className={`p-2 rounded-lg text-sm ${selectedDay === index ? 'bg-[#030578]' : 'bg-[#3B3966]'}`}
+                  >
+                    {getDayName(d.dt_txt)}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
