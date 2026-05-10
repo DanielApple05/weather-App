@@ -137,7 +137,7 @@ const Weather = () => {
                 <p>{Math.round(hour.main.temp)}°C</p>
               </div>
             ))}
-            <div className='flex gap-2 p-3'>
+            <div className='grid gap-2 p-3 absolute w-full h-full'>
               { day && daily?.map((day, index) => (
                 <button
                   key={index}
