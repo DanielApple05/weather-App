@@ -122,8 +122,8 @@ const Weather = () => {
               </div>
             </div>
           </div>
-          <div className='xl:w-3/12 w-full flex flex-col bg-[#2F2D52] rounded-lg relative'>
-            <div className='flex justify-between p-5 items-center '>
+          <div className='xl:w-3/12 w-full flex flex-col bg-[#2F2D52] rounded-lg relative gap-4 p-3'>
+            <div className='flex justify-between items-center '>
               <p className='text-start'>Hourly forecast</p>
               <button className='flex p-2 items-center bg-[#3B3966] rounded-lg gap-2' onClick={() => setDay(!day)}>
                 <p>Days</p>
@@ -131,20 +131,20 @@ const Weather = () => {
               </button>
             </div>
             {hourly?.map((hour, index) => (
-              <div key={index} className='flex justify-between items-center p-3 border-b border-[#3B3966]'>
+              <div key={index} className='flex justify-between items-center p-3 rounded-2xl bg-[#3B3966]'>
                 <p>{hour.dt_txt.split(" ")[1].slice(0, 5)}</p>
                 <img src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`} alt="" className='w-8' />
                 <p>{Math.round(hour.main.temp)}°C</p>
               </div>
             ))}
-            <div className='grid gap-2 p-3 absolute w-full h-full'>
+            <div className='flex flex-col right-0 top-15 w-7/12 absolute gap-2 p-3 bg-[#2F2D52] rounded-lg shadow-2xl ring ring-[#3B3966] m-3 '>
               { day && daily?.map((day, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedDay(index)}
                   className={`p-2 rounded-lg text-sm ${selectedDay === index ? 'bg-[#030578]' : 'bg-[#3B3966]'}`}
                 >
-                  {getDayName(day.dt_txt).slice(0, 3)}
+                  {getDayName(day.dt_txt)}
                 </button>
               ))}
             </div>
