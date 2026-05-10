@@ -57,7 +57,7 @@ const Weather = () => {
           </button>
           {
             unit &&
-            <div className='flex flex-col right-0 top-15 xl:w-2/12 w-6/12 absolute gap-2 p-3 bg-[#2F2D52] rounded-lg shadow-2xl ring ring-[#3B3966] '>
+            <div className='flex flex-col right-0 top-15 xl:w-2/12 w-7/12 absolute gap-2 p-3 bg-[#2F2D52] rounded-lg shadow-2xl ring ring-[#3B3966] '>
               <button>Switch to Imperial</button>
               <div className='border-b p-1 space-y-2 border-gray-400'>
                 <strong>Temprature</strong>
