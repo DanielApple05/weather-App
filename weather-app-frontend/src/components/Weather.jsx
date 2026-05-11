@@ -79,7 +79,7 @@ const Weather = () => {
                   <span>km/h</span>
                   {tempUnit === "metric" && <img src="/images/icon-checkmark.svg" alt="" />}
                 </div>
-                 <div className={`flex justify-between mb-2 p-1 ${tempUnit === "imperial" ? "bg-[#3B3966] rounded-lg " : ""}`}>
+                <div className={`flex justify-between mb-2 p-1 ${tempUnit === "imperial" ? "bg-[#3B3966] rounded-lg " : ""}`}>
                   <span>mph</span>
                   {tempUnit === "imperial" && <img src="/images/icon-checkmark.svg" alt="" />}
                 </div>
@@ -90,7 +90,7 @@ const Weather = () => {
                   <span>Millimeters(mm)</span>
                   {tempUnit === "metric" && <img src="/images/icon-checkmark.svg" alt="" />}
                 </div>
-                  <div className={`flex justify-between p-1 ${tempUnit === "imperial" ? "bg-[#3B3966] rounded-lg " : ""}`}>
+                <div className={`flex justify-between p-1 ${tempUnit === "imperial" ? "bg-[#3B3966] rounded-lg " : ""}`}>
                   <span>Inches(in)</ span>
                   {tempUnit === "imperial" && <img src="/images/icon-checkmark.svg" alt="" />}
                 </div>
@@ -153,7 +153,9 @@ const Weather = () => {
                   <div key={index} className='bg-[#2F2D52] p-3 rounded-lg text-center'>
                     <p>{day.dt_txt.split(" ")[0]}</p>
                     <img src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} alt="" />
-                    {<p>{Math.round(day.main.temp)}°C</p>}
+                    <div className='flex'>
+                      <p>{Math.round(day.main.temp)}°{tempUnit === "metric" ? "C" : "F"}</p>
+                    </div>
                   </div>
                 ))}
               </div>
