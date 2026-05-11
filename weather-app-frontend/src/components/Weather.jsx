@@ -174,14 +174,14 @@ const Weather = () => {
             ))}
             {day && (
               <div className='flex flex-col right-0 top-15 w-7/12 absolute gap-2 p-3 bg-[#2F2D52] rounded-lg shadow-2xl ring ring-[#3B3966] m-3'>
-                {daily?.map((d, index) => (
-                  <button
+                {daily?.map((item, index) => (
+                  <div
                     key={index}
                     onClick={() => { setSelectedDay(index); setDay(false) }}
                     className={`p-2 rounded-lg text-sm ${selectedDay === index ? 'bg-[#030578]' : 'bg-[#3B3966]'}`}
                   >
-                    {getDayName(d.dt_txt)}
-                  </button>
+                    {getDayName(item.dt_txt)}
+                  </div>
                 ))}
               </div>
             )}
