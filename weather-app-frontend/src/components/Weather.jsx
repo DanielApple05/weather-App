@@ -25,7 +25,6 @@ const Weather = () => {
         console.error(error)
       }
     }
-
     fetchWeather()
   }, [city, tempUnit])
 
@@ -132,7 +131,7 @@ const Weather = () => {
             <div className='xl:flex grid grid-cols-2 justify-between gap-5'>
               <div className='grid bg-[#2F2D52] w-full p-5 rounded-lg gap-2 '>
                 <span> Feels Like</span>
-                <span>{Math.round(current?.main.feels_like)}°C</span>
+                <span>{Math.round(current?.main.feels_like)}°{tempUnit === "metric" ? "C" : "F"}</span>
               </div>
               <div className='grid bg-[#2F2D52] w-full p-5 rounded-lg gap-2'>
                 <span> Humidity</span>
@@ -154,7 +153,7 @@ const Weather = () => {
                   <div key={index} className='bg-[#2F2D52] p-3 rounded-lg text-center'>
                     <p>{day.dt_txt.split(" ")[0]}</p>
                     <img src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} alt="" />
-                    <p>{Math.round(day.main.temp)}°C</p>
+                    {<p>{Math.round(day.main.temp)}°C</p>}
                   </div>
                 ))}
               </div>
@@ -172,7 +171,7 @@ const Weather = () => {
               <div key={index} className='flex justify-between items-center p-2 rounded-2xl bg-[#3B3966]'>
                 <p>{hour.dt_txt.split(" ")[1].slice(0, 5)}</p>
                 <img src={`https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`} alt="" className='w-8' />
-                <p>{Math.round(hour.main.temp)}°C</p>
+                <p>{Math.round(hour.main.temp)}°{tempUnit === "metric" ? "C" : "F"}</p>
               </div>
             ))}
             {day && (
