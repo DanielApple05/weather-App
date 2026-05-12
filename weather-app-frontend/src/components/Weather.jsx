@@ -15,6 +15,7 @@ const Weather = () => {
   useEffect(() => {
     if (!city) return
     const fetchWeather = async () => {
+      setLoading(true)
       try {
         const res = await axios.get(
           `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=${tempUnit}`
@@ -23,6 +24,8 @@ const Weather = () => {
         console.log(res.data)
       } catch (error) {
         console.error(error)
+      }finally{
+        setLoading(false)
       }
     }
     fetchWeather()
@@ -61,7 +64,8 @@ const Weather = () => {
           {
             unit &&
             <div className='flex flex-col right-0 top-15 xl:w-2/12 w-7/12 absolute gap-2 p-3 bg-[#2F2D52] rounded-lg shadow-2xl ring ring-[#3B3966] '>
-              <button className='bg-[#3B3966] rounded-lg p-1 cursor-pointer' onClick={() => setTempUnit(tempUnit === "metric" ? "imperial" : "metric")}>{tempUnit === "metric" ? "Switch to Imperial" : "Switch to Metric"}</button>
+              <button 
+              className='bg-[#3B3966] rounded-lg p-1 cursor-pointer' onClick={() =>  {setTempUnit(tempUnit === "metric" ? "imperial" : "metric"); setUnit(false)}}>{tempUnit === "metric" ? "Switch to Imperial" : "Switch to Metric"}</button>
               <div className='border-b p-1 space-y-1 border-gray-400'>
                 <strong>Temprature</strong>
                 <div className={`flex justify-between mt-2 items-center p-1 ${tempUnit === "metric" ? "bg-[#3B3966] rounded-lg " : ""}`}>
@@ -102,16 +106,18 @@ const Weather = () => {
           <h1 className='xl:text-[35px] text-[20px]'>
             How's the sky looking today?
           </h1>
-          <form onSubmit={search} className=' flex gap-3 xl:w-7/12 w-full'>
+          <form 
+          onSubmit={search} className=' flex gap-3 xl:w-7/12 w-full'>
             <div className='flex bg-[#2F2D52] items-center p-3 rounded-lg flex-1  '>
               <img src="/images/icon-search.svg" alt="" className='w-5 ' />
               <input
                 type="text"
+                disabled={loading}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className='outline-none pl-2' placeholder='Search for a place...' />
             </div>
-            <button type='submit' className='p-3 bg-[#030578] rounded-lg'>
+            <button type='submit' disabled={loading} className='p-3 bg-[#030578] rounded-lg'>
               Search
             </button>
           </form>
@@ -139,11 +145,11 @@ const Weather = () => {
               </div>
               <div className='grid bg-[#2F2D52] w-full p-5 rounded-lg gap-2 '>
                 <span> Wind</span>
-                <span>{current?.wind.speed} m/s</span>
+                <span>{current?.wind.speed} {tempUnit === "metric" ? "km/h" : "mph"}</span>
               </div>
               <div className='grid bg-[#2F2D52] w-full p-5 rounded-lg gap-2 '>
                 <span> precipitation</span>
-                <span>{current?.rain?.["3h"] ?? 0} mm</span>
+                <span>{current?.rain?.["3h"] ?? 0} {tempUnit === "metric" ? "mm" : "in"}</span>
               </div>
             </div>
             <div className='space-y-5'>
@@ -153,15 +159,13 @@ const Weather = () => {
                   <div key={index} className='bg-[#2F2D52] p-3 rounded-lg text-center'>
                     <p>{day.dt_txt.split(" ")[0]}</p>
                     <img src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} alt="" />
-                    <div className='flex'>
-                      <p>{Math.round(day.main.temp)}°{tempUnit === "metric" ? "C" : "F"}</p>
-                    </div>
+                    <p>{Math.round(day.main.temp)}°{tempUnit === "metric" ? "C" : "F"}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-          <div className='xl:w-3/12 w-full flex flex-col bg-[#2F2D52] rounded-lg relative gap-4 p-3'>
+          <div className='xl:w-3/12 w-full flex flex-col bg-[#2F2D52] rounded-lg relative gap-4 p-3 xl:mt-0 mt-5'>
             <div className='flex justify-between items-center cursor-pointer'>
               <p className='text-start'>Hourly forecast</p>
               <button className='flex p-2 items-center bg-[#3B3966] rounded-lg gap-2' onClick={() => setDay(!day)}>
